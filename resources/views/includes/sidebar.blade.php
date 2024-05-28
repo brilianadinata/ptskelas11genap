@@ -16,6 +16,9 @@
         <span>Dashboard</span></a>
         </li>
         <!-- Divider -->
+
+        {{-- ketika admin login maka menu/fitur tampil / muncul  --}}
+        @if($showmenuadmin)
         <hr class="sidebar-divider">
         <li class="nav-item active">
         <a class="nav-link" href="/siswa">
@@ -46,4 +49,6 @@
         <i class="fas fa-fw fa-credit-card"></i>
         <span>Transaksi</span></a>
         </li>
+        @endif
+       
         </ul>

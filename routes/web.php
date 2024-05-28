@@ -21,8 +21,12 @@ use App\Http\Controllers\SiswaController;
 //     return view('welcome');
 // });
 Route::get('/', function () {
-    return view ('pages.dashboard');
+    return view ('landingpage');
 });
+Route::get('/dashhboard', function () {
+    return view ('pages.dashboard');
+})->middleware('auth');
+
 Route::get('/kehadiran/{id}', function () {
     return 'hadir bu';
 });
@@ -34,12 +38,26 @@ route::get('/hitung', [BerhitungController::class, 'hitung']);
 
 route::post('/kirim', [TestController::class, 'kirim']);
 route::get('/daftar', [TestController::class, 'daftar']);
+
 route::get('/dashboard', [DashboardController::class, 'index']);
-route::get('/siswa', [SiswaController::class, 'index']);
 
-//route siswa
-Route::get('/siswa', [SiswaController::class, 'index']);
-Route::get('/tambahdatasiswa', [SiswaController::class, 'tambahdatasiswa']);
-Route::post('/siswa', [SiswaController::class, 'index']);
+Route::middleware(['auth', 'admin'])->group(function () {
+    // ...
+    route::get('/siswa', [SiswaController::class, 'index']);
+    
+    //route siswa
+    Route::get('/siswa', [SiswaController::class, 'index']);
+    Route::get('/tambahdatasiswa', [SiswaController::class, 'tambahdatasiswa']);
+    Route::post('/siswa', [SiswaController::class, 'index']);
+});
 
+//route kategori
+Route::resource('kategori', KategoriController::class);
 
+//route landing page
+Route::resource('/landing', LandingController::class);
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
